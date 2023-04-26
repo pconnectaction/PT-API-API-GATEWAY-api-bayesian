@@ -1,0 +1,13 @@
+phrase:
+  access_token: 3e0a8451ef416c097b146393e9775adc69236f5d87b43b31e60b376656c04db9
+  project_id: 1a16aa6c17ac0c27cb7b026d28dd399e
+  push:
+    sources:
+    - file: ./locales/<locale_name>.json
+      params:
+        file_format: i18next
+  pull:
+    targets:
+    - file: ./locales/<locale_name>.json
+      params:
+        file_format: i18next
