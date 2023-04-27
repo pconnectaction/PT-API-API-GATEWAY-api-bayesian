@@ -1,0 +1,8 @@
+[submodule "en-gb"]
+	path = en-gb
+	url = https://github.com/pconnectaction/client-en-gb.git
+	branch=main
+[submodule "en-nz"]
+	path = en-au
+	url = https://github.com/pconnectaction/client-en-au.git
+	branch=main
