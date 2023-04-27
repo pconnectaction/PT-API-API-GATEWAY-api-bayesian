@@ -1,2 +1,27 @@
 {
+  "ACTIVITY_LABEL": "سرگرمی",
+  "general": {
+    "back": "واپس",
+    "cancel": "منسوخ",
+    "confirm": "تمھيں يقين ہے?",
+    "destroy": "مٹانا",
+    "edit": "تدوین",
+    "new": "نیا"
+  },
+  "hello": "سلام دنيا",
+  "layouts": {
+    "application": {
+      "about": "تقریباً",
+      "account": "حساب",
+      "app_store": "ایپ اسٹور",
+      "imprint": "امپرنٹ",
+      "logout": "Logout",
+      "my_mails": "میرے میل",
+      "press": "دبانا",
+      "preview": "پیش",
+      "profile": "پروفائل",
+      "sign_in": "لاگ ان",
+      "sign_up": "رجسٹر"
+    }
+  }
 }
