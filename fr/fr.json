@@ -1,0 +1,27 @@
+{
+  "ACTIVITY_LABEL": "Activité",
+  "general": {
+    "back": "Précédent",
+    "cancel": "Annuler",
+    "confirm": "Es-tu sûr?",
+    "destroy": "Supprimer",
+    "edit": "Éditer",
+    "new": "Nouveau"
+  },
+  "hello": "Salut tout le monde",
+  "layouts": {
+    "application": {
+      "about": "Environ",
+      "account": "Compte",
+      "app_store": "App Store",
+      "imprint": "Empreinte",
+      "logout": "Déconnexion",
+      "my_mails": "Mes mails",
+      "press": "Presser",
+      "preview": "Aperçu",
+      "profile": "Profil",
+      "sign_in": "Connectez-vous",
+      "sign_up": "Registre"
+    }
+  }
+}
