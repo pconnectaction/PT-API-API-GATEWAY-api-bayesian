@@ -14,10 +14,11 @@ jobs:
       - name: Get Updated Directories
         run: |
           echo "Working directory: $(pwd)"
-          git diff --name-only --diff-filter=d HEAD~1..HEAD
-          dirs=$(git diff --name-only --diff-filter=d HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',')
-          echo "dirs=$dirs"
+          echo "Listing directories in current commit..."
+          dirs=$(git diff --name-only --diff-filter=d HEAD~1 HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',')
+          echo "Updated directories: $dirs"
           echo "dirs=$dirs" >> $GITHUB_ENV
+
 
   process-directory:
     runs-on: ubuntu-latest
