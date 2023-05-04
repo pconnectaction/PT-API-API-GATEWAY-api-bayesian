@@ -14,7 +14,7 @@ jobs:
 
       - name: Get Updated Directories
         id: list-directories
-        run: echo "dirs=$(git diff --name-only --diff-filter=d HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',' || echo '')" >> $GITHUB_ENV
+        run:  echo "dirs=$(git diff --name-only --diff-filter=d main..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',' || echo '')" >> $GITHUB_ENV
 
   process-directory:
     runs-on: ubuntu-latest
