@@ -1,6 +1,7 @@
 {
   "layouts": {
     "application": {
+      "logout": "Cerrar sesión",
       "preview": "545454"
     }
   }
