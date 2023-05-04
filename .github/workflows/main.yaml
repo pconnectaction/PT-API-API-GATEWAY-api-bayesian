@@ -1,0 +1,39 @@
+name: Process Updated Directories
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  list-directories:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get Updated Directories
+        run: |
+          echo "Working directory: $(pwd)"
+          echo "Listing directories in current commit..."
+          dirs=$(git diff --name-only --diff-filter=d HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',' || echo '')
+          echo "Updated directories: $dirs"
+          echo "dirs=$dirs" >> $GITHUB_ENV
+  process-directory:
+    runs-on: ubuntu-latest
+    needs: list-directories
+    strategy:
+      matrix:
+        directory: ${{ fromJson(needs.list-directories.outputs['list-directories.dirs']) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Process directory ${{ matrix.directory }}
+        run: |
+          # Process files in the updated directory
+          echo "Processing directory ${{ matrix.directory }}"
+
+      - name: Notify completion of processing directory
+        run: echo "Completed processing directory ${{ matrix.directory }}"
