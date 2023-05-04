@@ -17,4 +17,5 @@ jobs:
           echo "Added+Modified:"
           echo "${{ steps.abc.outputs.added_modified }}"
           echo "Directories:"
-          echo "${{ steps.abc.outputs.added_modified }}" | sed -E 's|/[^/]+/?$||' | sort | uniq
+          echo "${{ steps.abc.outputs.added_modified }}" | tr ' ' '\n' | xargs -I {} find {} -maxdepth 1 -type d | sed 's|^\./||' | sort | uniq
+
