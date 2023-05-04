@@ -1,4 +1,4 @@
-name: Get Updated Directories
+name: 1 Get Updated Directories
 
 on:
   push:
