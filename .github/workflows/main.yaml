@@ -1,4 +1,4 @@
-name: Create Matrix Job Based on Changed Directories
+name: Get Updated Directories
 
 on:
   push:
@@ -12,17 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get Changed Directories
-        uses: tj-actions/changed-files@v35
-        with:
-          base_sha: ${{ github.event.before }}
-
-      - name: Create Matrix Job
+      - name: Get Updated Directories
         run: |
-          for directory in ${{ steps.get-changed-directories.outputs.all_changed_and_modified_directories }}; do
+          updated_directories=$(git diff --name-only --diff-filter=M HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ",")
+
+      - name: Execute Jobs
+        if: ${{ ne(updated_directories, '') }}
+        run: |
+          for directory in $updated_directories; do
             jobs.$directory:
+              name: "Run job for $directory"
               runs-on: ubuntu-latest
               steps:
                 - uses: actions/checkout@v3
-                - run: echo "Directory $directory has been changed"
+                - run: echo "Directory $directory has been updated"
           done
