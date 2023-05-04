@@ -11,10 +11,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
       - name: Get Updated Directories
-        id: list-directories
-        run: echo "dirs=$(git diff --name-only --diff-filter=d HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',')" >> $GITHUB_ENV
+        run: |
+          echo "Working directory: $(pwd)"
+          git diff --name-only --diff-filter=d HEAD~1..HEAD
+          dirs=$(git diff --name-only --diff-filter=d HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',')
+          echo "dirs=$dirs"
+          echo "dirs=$dirs" >> $GITHUB_ENV
 
   process-directory:
     runs-on: ubuntu-latest
