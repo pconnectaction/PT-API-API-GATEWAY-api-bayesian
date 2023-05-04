@@ -1,5 +1,5 @@
-name: Get Updated Directories
-
+name: 2 Get Updated Directories
+ 
 on:
   push:
     branches:
