@@ -15,15 +15,12 @@ jobs:
       - name: Get Updated Directories
         run: |
           updated_directories=$(git diff --name-only --diff-filter=M HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ",")
-
-      - name: Execute Jobs
-        if test -n "$updated_directories"; then
-          for directory in $updated_directories; do
-            jobs.$directory:
-              name: "Run job for $directory"
-              runs-on: ubuntu-latest
-              steps:
-                - uses: actions/checkout@v3
-                - run: echo "Directory $directory has been updated"
-          done
-        fi
+          if [ -n "$updated_directories" ]; then
+            for directory in $updated_directories; do
+              jobs.$directory:
+                name: "Run job for $directory"
+                runs-on: ubuntu-latest
+                steps:
+                  - uses: actions/checkout@v3
+                  - run: echo "Directory $directory has been updated"
+          fi
