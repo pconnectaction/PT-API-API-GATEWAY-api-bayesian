@@ -17,7 +17,7 @@ jobs:
           updated_directories=$(git diff --name-only --diff-filter=M HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ",")
 
       - name: Execute Jobs
-        if [[ $updated_directories != "" ]]; then
+        if test -n "$updated_directories"; then
           for directory in $updated_directories; do
             jobs.$directory:
               name: "Run job for $directory"
