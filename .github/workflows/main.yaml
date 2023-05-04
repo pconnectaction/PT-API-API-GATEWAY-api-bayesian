@@ -14,7 +14,7 @@ jobs:
 
       - name: Get Updated Directories
         run: |
-          updated_directories=$(git diff --name-only --diff-filter=M HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ",")
+          updated_directories=$(git diff --name-only --diff-filter=M HEAD~1..HEAD --cached | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ",")
           if [ -n "$updated_directories" ]; then
             for directory in $updated_directories; do
               jobs.$directory:
