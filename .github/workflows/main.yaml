@@ -14,8 +14,8 @@ jobs:
 
       - name: Get Updated Directories
         run: |
-          # Get the difference between the current commit and the previous commit
-          updated_directories=$(git diff-tree -r --name-only HEAD HEAD~1 | sed -E 's|/[^/]+$||' | sort | uniq)
+          # Get the difference between the index and the current commit
+          updated_directories=$(git diff-tree -r --name-only HEAD HEAD~1 --cached | sed -E 's|/[^/]+$||' | sort | uniq)
 
           # If there are any updated directories, print them out
           if [ -n "$updated_directories" ]; then
