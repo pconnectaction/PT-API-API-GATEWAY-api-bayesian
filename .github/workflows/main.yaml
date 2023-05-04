@@ -1,4 +1,4 @@
-name: 1 Get Updated Directories
+name: Get Updated Directories
 
 on:
   push:
@@ -15,10 +15,7 @@ jobs:
       - name: Get Updated Directories
         run: |
           # Get the difference between the current commit and the previous commit
-          diff=$(git diff-tree -r --name-only HEAD HEAD~1)
-
-          # Extract the directories from the difference
-          updated_directories=$(echo $diff | sed -E 's|/[^/]+$||' | sort | uniq)
+          updated_directories=$(git diff-tree -r --name-only HEAD HEAD~1 | sed -E 's|/[^/]+$||' | sort | uniq)
 
           # If there are any updated directories, print them out
           if [ -n "$updated_directories" ]; then
