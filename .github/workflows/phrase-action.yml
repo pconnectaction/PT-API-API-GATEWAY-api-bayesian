@@ -1,0 +1,46 @@
+name: List Directories and Create Jobs on Push
+on:
+  push:
+    branches:
+      - main
+jobs:
+  list-directories:
+    runs-on: ubuntu-latest
+    outputs:
+      dirs: ${{ steps.set-dirs.outputs.dirs }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set directories output
+        id: set-dirs
+        run: |
+          echo "::set-output name=dirs::$(git diff-tree --no-commit-id --name-only -r HEAD | xargs dirname | sort | uniq)"
+      - name: Loop over directories
+        id: loop-directories
+        run: |
+          for dir in ${{ fromJSON(steps.list-directories.outputs.dirs) }}; do
+            echo "Processing directory: $dir"
+            # Create a new job for each directory
+            echo "::set-output name=jobs::${dir}"
+          done
+        shell: bash
+  ${{ needs.list-directories.outputs.jobs }}:
+    runs-on: ubuntu-latest
+    needs: list-directories
+    name: Process ${{ matrix.dir }}
+    strategy:
+      matrix:
+        dir: ${{ fromJSON(needs.list-directories.outputs.dirs) }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Process files in directory
+        run: |
+          echo "Processing files in directory ${{ matrix.dir }}..."
+          # Add your commands or scripts here to process the files in the directory
+      - name: Execute another job
+        if: always()
+        run: |
+          echo "Executing another job for directory ${{ matrix.dir }}..."
+          # Add your commands or scripts here to execute another job
+
