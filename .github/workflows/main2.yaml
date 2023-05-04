@@ -1,0 +1,31 @@
+name: Get Updated Directories
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  list-directories:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Updated Directories
+        run: |
+          updated_directories=$(git diff --name-only --diff-filter=M HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ",")
+
+      - name: Execute Jobs
+        if: ${{ ne(updated_directories, '') }}
+        run: |
+          for directory in $updated_directories; do
+            jobs.$directory:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v3
+                - run: echo "Directory $directory has been updated"
+                - name: Add Name to Job
+                  run: |
+                    echo "name: $directory" >> $GITHUB_ENV
+          done
