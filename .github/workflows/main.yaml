@@ -1,0 +1,28 @@
+name: Create Matrix Job Based on Changed Directories
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  list-directories:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Changed Directories
+        uses: tj-actions/changed-files@v35
+        with:
+          base_sha: ${{ github.event.before }}
+
+      - name: Create Matrix Job
+        run: |
+          for directory in ${{ steps.get-changed-directories.outputs.all_changed_and_modified_directories }}; do
+            jobs.$directory:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v3
+                - run: echo "Directory $directory has been changed"
+          done
