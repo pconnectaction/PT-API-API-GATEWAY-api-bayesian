@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Get Updated Directories
-        id: updated-dirs
+        id: list-directories
         run: echo "dirs=$(git diff --name-only --diff-filter=d HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',' || echo '')" >> $GITHUB_ENV
 
   process-directory:
@@ -21,7 +21,7 @@ jobs:
     needs: list-directories
     strategy:
       matrix:
-        directory: ${{ fromJson(needs.list-directories.outputs.dirs) }}
+        directory: ${{ fromJson(needs.list-directories.outputs['list-directories.dirs']) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
