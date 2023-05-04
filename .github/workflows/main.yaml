@@ -13,7 +13,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Get Updated Directories
-        run: echo "dirs=$(git diff --name-only --diff-filter=d main..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',' || echo '')" >> $GITHUB_ENV
+        id: updated-dirs
+        run: echo "dirs=$(git diff --name-only --diff-filter=d HEAD~1..HEAD | sed -E 's|/[^/]+$||' | sort | uniq | paste -sd ',' || echo '')" >> $GITHUB_ENV
 
   process-directory:
     runs-on: ubuntu-latest
