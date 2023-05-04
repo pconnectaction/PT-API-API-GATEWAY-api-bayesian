@@ -10,7 +10,7 @@ jobs:
       dirs: ${{ steps.set-dirs.outputs.dirs }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set directories output
         id: set-dirs
         run: |
@@ -33,7 +33,7 @@ jobs:
         dir: ${{ fromJSON(needs.list-directories.outputs.dirs) }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Process files in directory
         run: |
           echo "Processing files in directory ${{ matrix.dir }}..."
