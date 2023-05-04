@@ -1,2 +1,27 @@
 {
+  "ACTIVITY_LABEL": "กิจกรรม",
+  "general": {
+    "back": "ย้อนกลับ",
+    "cancel": "ยกเลิก",
+    "confirm": "เธอแน่ใจหรือ",
+    "destroy": "ลบ",
+    "edit": "แก้ไข",
+    "new": "ใหม่"
+  },
+  "hello": "หวัดดีชาวโลก",
+  "layouts": {
+    "application": {
+      "about": "ประมาณ",
+      "account": "บัญชี",
+      "app_store": "แอพสโตร์",
+      "imprint": "ประทับ",
+      "logout": "ออกจากระบบ",
+      "my_mails": "จดหมายของฉัน",
+      "press": "กด",
+      "preview": "ดูตัวอย่าง",
+      "profile": "โปรไฟล์",
+      "sign_in": "เข้า สู่ ระบบ",
+      "sign_up": "ลงทะเบียน"
+    }
+  }
 }
