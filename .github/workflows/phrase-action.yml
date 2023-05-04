@@ -2,7 +2,7 @@ name: List Directories and Process Files
 on:
   push:
     branches:
-      - main
+      - mains
 jobs:
   list-directories:
     runs-on: ubuntu-latest
