@@ -13,8 +13,8 @@ jobs:
       - name: Print changed directories
         run: |
           for file in ${{ steps.changed-files.outputs.added_modified }}; do
-            file=dirname $file 
+            dir_name=$(dirname $file) 
             echo "*******************"
-            echo $file | cut -d '/' -f 1
+            echo $dir_name | cut -d '/' -f 1
 
           done | sort -u
