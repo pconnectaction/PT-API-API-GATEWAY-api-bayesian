@@ -3,7 +3,7 @@ name: 2 Get Updated Directories
 on:
   push:
     branches:
-      - main
+      - main2
 
 jobs:
   list-directories:
