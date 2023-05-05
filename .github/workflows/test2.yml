@@ -4,7 +4,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - uses: jitterbit/get-changed-files@v1
         id: changed-files
         with:
@@ -24,8 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directory:
-          - ${{ steps.print-dirs.outputs.dirs }}
+        directory: ${{ fromJson(steps.print-dirs.outputs.dirs) }}
     steps:
       - uses: actions/checkout@v2
       - name: Build and Deploy
