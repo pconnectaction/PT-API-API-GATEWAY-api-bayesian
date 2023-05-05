@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directory: ${{ fromJson(steps.print-dirs.outputs.dirs) }}
+        directory: ${{ join(",", steps.print-dirs.outputs.dirs) }}
     steps:
       - uses: actions/checkout@v2
       - name: Build and Deploy
