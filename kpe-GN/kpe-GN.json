@@ -1,2 +1,7 @@
 {
+  "layouts": {
+    "application": {
+      "preview": "ewr"
+    }
+  }
 }
