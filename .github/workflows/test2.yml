@@ -1,10 +1,8 @@
 name: Build and Deployment
-
 on:
   push:
     branches:
       - main
-
 jobs:
   pre-build:
     runs-on: ubuntu-latest
@@ -19,7 +17,9 @@ jobs:
         with:
           dir_names: true
           json: true
-
+          dir_names_exclude_root: true
+          dir_names_max_depth: 1
+          
       - name: Print Changed Directories
         id: set_locales
         run: |
