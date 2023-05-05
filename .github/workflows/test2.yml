@@ -6,7 +6,7 @@ on:
 jobs:
   pre-build:
     runs-on: ubuntu-latest
-    name: "Pre Setup - Build/Deploy"
+    name: "Pre-Setup - Build/Deploy"
     outputs:
       locales: ${{ steps.set_locales.outputs.locales }}
     steps:
@@ -30,7 +30,7 @@ jobs:
           echo "locales=${dir_names}" >> $GITHUB_OUTPUT
   build:
     runs-on: ubuntu-latest
-    name: Build & Deploy- ${{ matrix.locale }}
+    name: Build & Deploy - ${{ matrix.locale }}
     needs: [pre-build]
     strategy:
       max-parallel: 1
