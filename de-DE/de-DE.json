@@ -5,5 +5,10 @@
     "confirm": "Bist du sicher?",
     "edit": "Redigieren"
   },
-  "hello": "Hey"
+  "hello": "Hey",
+  "layouts": {
+    "application": {
+      "logout": "Abmeldung"
+    }
+  }
 }
