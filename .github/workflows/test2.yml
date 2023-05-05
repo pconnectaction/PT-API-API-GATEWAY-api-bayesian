@@ -13,21 +13,14 @@ jobs:
       - name: Print changed directories
         id: print-dirs
         run: |
-          dirs=()
-          for file in ${{ steps.changed-files.outputs.added_modified }}; do
-            dir_name=$(dirname $file) 
-            dirs+=("$dir_name")
-          done
-          echo "::set-output name=dirs::${dirs[*]}"
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        directory: ${{ join(",", steps.print-dirs.outputs.dirs | map(basename)) }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build and Deploy
-        run: |
-          echo "Building and deploying directory ${{ matrix.directory }}..."
+          # Get the directory names
+          dir_names=$(for file in ${{ steps.changed-files.outputs.added_modified }}; do
+            dir_name=$(dirname $file)
+            echo $dir_name | cut -d '/' -f 1
+          done | sort -u)
 
+          # Store the directory names in a variable
+          comma_separated_dir_names=$dir_names
+          echo $comma_separated_dir_names
+
+  
