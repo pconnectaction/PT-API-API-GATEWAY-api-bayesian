@@ -25,6 +25,7 @@ jobs:
             echo $dir_name | cut -d '/' -f 1
           done | sort -u)
 
+          $comma_separated_dir_names=$dir_names
           # Create a dynamic build job for each directory
           for dir_name in $comma_separated_dir_names; do
             name="build-$dir_name"
