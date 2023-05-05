@@ -1,3 +1,4 @@
+
 name: Build and Deployment
 on: push
 jobs:
@@ -5,14 +6,19 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dir_name: ${{ fromJson(needs.get_dirs.outputs.dirs) }}
+        dir_name: ${{ steps.json-to-matrix.outputs.matrix }}
     needs: get_dirs
     steps:
       - uses: actions/checkout@v3
+      - name: Convert JSON to matrix
+        id: json-to-matrix
+        uses: fredrikhgrelland/json-to-matrix@v1.0.0
+        with:
+          json: ${{ needs.get_dirs.outputs.dirs }}
       - name: Run tests for ${{ matrix.dir_name }}
         run: |
           cd ${{ matrix.dir_name }}
-          ls -lrth
+          ls
   get_dirs:
     runs-on: ubuntu-latest
     outputs:
