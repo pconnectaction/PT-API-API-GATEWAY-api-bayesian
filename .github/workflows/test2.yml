@@ -6,7 +6,7 @@ on:
 jobs:
   pre-build:
     runs-on: ubuntu-latest
-    name: "Pre-Setup - Build/Deploy"
+    name: "Build Pre-Setup"
     outputs:
       locales: ${{ steps.set_locales.outputs.locales }}
     steps:
