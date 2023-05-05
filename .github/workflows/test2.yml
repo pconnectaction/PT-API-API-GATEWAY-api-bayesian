@@ -29,7 +29,7 @@ jobs:
           echo "locales=${dir_names}" >> $GITHUB_OUTPUT
   build:
     runs-on: ubuntu-latest
-    name: Check ${{ matrix.nickname }}
+    name: Check ${{ matrix }}
     needs: [pre-build]
     strategy:
       matrix:
