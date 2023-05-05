@@ -36,20 +36,6 @@ jobs:
                   yarn build $dir_name
             "
           done
+          echo $jobs
 
-          # Create a workflow with the dynamic build jobs
-          workflow:
-            name: Build and Deploy
-            on: push
-            jobs:
-              * $jobs
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '16.x'
-      - run: yarn install
-      - run: yarn deploy
+
