@@ -5,6 +5,7 @@
   },
   "layouts": {
     "application": {
+      "about": "عن",
       "account": "Account",
       "preview": "Preview"
     }
