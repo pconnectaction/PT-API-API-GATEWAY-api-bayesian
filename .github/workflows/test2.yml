@@ -30,7 +30,7 @@ jobs:
           echo "locales=${dir_names}" >> $GITHUB_OUTPUT
   build:
     runs-on: ubuntu-latest
-    name: Build - ${{ matrix.locale }}
+    name: Build & Deploy- ${{ matrix.locale }}
     needs: [pre-build]
     strategy:
       max-parallel: 1
@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Build/Deploy ${{ matrix.locale }}
+      - name: Build ${{ matrix.locale }}
         run: |
           echo "Building for locale ${{ matrix.locale }}"
           cd ${{ matrix.locale }}; ls -lrth
