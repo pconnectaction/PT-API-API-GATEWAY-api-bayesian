@@ -1,28 +1,8 @@
-
 name: Build and Deployment
 on: push
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dir_name: ${{ steps.json-to-matrix.outputs.matrix }}
-    needs: get_dirs
-    steps:
-      - uses: actions/checkout@v3
-      - name: Convert JSON to matrix
-        id: json-to-matrix
-        uses: fredrikhgrelland/json-to-matrix@v1.0.0
-        with:
-          json: ${{ needs.get_dirs.outputs.dirs }}
-      - name: Run tests for ${{ matrix.dir_name }}
-        run: |
-          cd ${{ matrix.dir_name }}
-          ls
-  get_dirs:
-    runs-on: ubuntu-latest
-    outputs:
-      dirs: ${{ steps.set_dirs.outputs.dirs }}
     steps:
       - uses: actions/checkout@v3
       - uses: jitterbit/get-changed-files@v1
@@ -31,11 +11,22 @@ jobs:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Print changed directories
-        id: set_dirs
+        id: print-dirs
         run: |
-          dirs=$(for file in ${{ steps.changed-files.outputs.added_modified }}; do
+          dirs=()
+          for file in ${{ steps.changed-files.outputs.added_modified }}; do
             dir_name=$(dirname $file) 
-            echo $dir_name | cut -d '/' -f 1
-
-          done | sort -u | jq -R . | jq -s .)
-          echo "::set-output name=dirs::$dirs"
+            dirs+=("$dir_name")
+          done
+          echo "::set-output name=dirs::${dirs[*]}"
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: ${{ fromJson(steps.print-dirs.outputs.dirs) }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and Deploy
+        run: |
+          echo "Building and deploying directory ${{ matrix.directory }}..."
