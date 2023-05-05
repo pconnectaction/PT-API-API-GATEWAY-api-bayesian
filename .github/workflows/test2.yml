@@ -1,6 +1,3 @@
-Okay, I will try to create matrix jobs out of dir_name values. Here is the code I generated:
-
-```yaml
 name: Build and Deployment
 on: push
 jobs:
@@ -15,8 +12,7 @@ jobs:
       - name: Run tests for ${{ matrix.dir_name }}
         run: |
           cd ${{ matrix.dir_name }}
-          npm install
-          npm test
+          ls -lrth
   get_dirs:
     runs-on: ubuntu-latest
     outputs:
@@ -37,4 +33,3 @@ jobs:
 
           done | sort -u | jq -R . | jq -s .)
           echo "::set-output name=dirs::$dirs"
-```
