@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  prebuild:
+  pre-build:
     runs-on: ubuntu-latest
     outputs:
       locales: ${{ steps.set_locales.outputs.locales }}
@@ -31,9 +31,11 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    name: Check ${{ matrix.nickname }}
+    needs: [pre-build]
     strategy:
       matrix:
-        locale: ${{ steps.set_locales.outputs.locales }}
+        locale: ${{fromJSON(needs.pre-build.outputs.locales)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
