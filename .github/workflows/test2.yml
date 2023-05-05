@@ -41,6 +41,8 @@ jobs:
       - name: Build
         run: |
           echo "Building for locale ${{ matrix.locale }}"
+          cd ${{ matrix.locale }}; ls -lrth
       - name: Deploy
         run: |
           echo "Deploying for locale ${{ matrix.locale }}"
+          cd ${{ matrix.locale }}; pwd
