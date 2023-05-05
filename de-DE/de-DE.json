@@ -1,7 +1,9 @@
 {
   "ACTIVITY_LABEL": "Activity ",
   "general": {
-    "confirm": "Bist du sicher?"
+    "cancel": "Abbrechen",
+    "confirm": "Bist du sicher?",
+    "edit": "Redigieren"
   },
   "hello": "Hey"
 }
