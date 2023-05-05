@@ -16,18 +16,16 @@ jobs:
       - name: Get Changed Files
         id: changed-files
         uses: tj-actions/changed-files@v35
+        with:
+          match_directories: true
 
       - name: Print Changed Directories
         id: set_locales
         run: |
           # Get the directory names
           echo ${{ steps.changed-files.outputs.all_changed_files }}
-          dir_names=$(for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            dir_name=$(dirname $file)
-            echo $dir_name | cut -d '/' -f 1
-          done | sort -u)
+          dir_names=${{ steps.changed-files.outputs.all_changed_files }}
           echo "locales=${dir_names}" >> $GITHUB_OUTPUT
-
   build:
     runs-on: ubuntu-latest
     name: Check ${{ matrix.nickname }}
