@@ -1,20 +1,40 @@
-name: Test 2
+Okay, I will try to create matrix jobs out of dir_name values. Here is the code I generated:
+
+```yaml
+name: Build and Deployment
 on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir_name: ${{ fromJson(needs.get_dirs.outputs.dirs) }}
+    needs: get_dirs
     steps:
-      - uses: actions/checkout@v2.1.0
+      - uses: actions/checkout@v3
+      - name: Run tests for ${{ matrix.dir_name }}
+        run: |
+          cd ${{ matrix.dir_name }}
+          npm install
+          npm test
+  get_dirs:
+    runs-on: ubuntu-latest
+    outputs:
+      dirs: ${{ steps.set_dirs.outputs.dirs }}
+    steps:
+      - uses: actions/checkout@v3
       - uses: jitterbit/get-changed-files@v1
         id: changed-files
         with:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Print changed directories
+        id: set_dirs
         run: |
-          for file in ${{ steps.changed-files.outputs.added_modified }}; do
+          dirs=$(for file in ${{ steps.changed-files.outputs.added_modified }}; do
             dir_name=$(dirname $file) 
-            echo "*******************"
             echo $dir_name | cut -d '/' -f 1
 
-          done | sort -u
+          done | sort -u | jq -R . | jq -s .)
+          echo "::set-output name=dirs::$dirs"
+```
