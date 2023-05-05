@@ -1,42 +1,29 @@
 name: Build and Deployment
-on: push
-
+on:
+  push:
+    branches:
+      - main
 jobs:
-  build:
+  prebuild:
     runs-on: ubuntu-latest
+    outputs:
+      locales: ${{ steps.set_locales.outputs.locales }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: jitterbit/get-changed-files@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Get Changed Files
         id: changed-files
+        uses: jitterbit/get-changed-files@v1
         with:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Print changed directories
-        run: |
-          for file in ${{ steps.changed-files.outputs.added_modified }}; do
-            dir_name=$(dirname $file)
-            echo $dir_name | cut -d '/' -f 1
-          done | sort -u
-      - name: Create dynamic build jobs
+      - name: Print Changed Directories
+        id: set_locales
         run: |
           # Get the directory names
           dir_names=$(for file in ${{ steps.changed-files.outputs.added_modified }}; do
             dir_name=$(dirname $file)
             echo $dir_name | cut -d '/' -f 1
           done | sort -u)
-
-          $comma_separated_dir_names=$dir_names
-          # Create a dynamic build job for each directory
-          for dir_name in $comma_separated_dir_names; do
-            name="build-$dir_name"
-            jobs+="jobs:$name"
-            steps+="
-              - name: Build $dir_name
-                run: |
-                  echo 'Building $dir_name...'
-                  yarn build $dir_name
-            "
-          done
-          echo $jobs
-
+          echo "locales=${dir_names}" >> $GITHUB_OUTPUT
 
