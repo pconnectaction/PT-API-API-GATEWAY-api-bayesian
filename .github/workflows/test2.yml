@@ -1,17 +1,23 @@
 name: Build and Deployment
 on: push
+
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: jitterbit/get-changed-files@v1
         id: changed-files
         with:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Print changed directories
-        id: print-dirs
+        run: |
+          for file in ${{ steps.changed-files.outputs.added_modified }}; do
+            dir_name=$(dirname $file)
+            echo $dir_name | cut -d '/' -f 1
+          done | sort -u
+      - name: Create dynamic build jobs
         run: |
           # Get the directory names
           dir_names=$(for file in ${{ steps.changed-files.outputs.added_modified }}; do
@@ -19,8 +25,31 @@ jobs:
             echo $dir_name | cut -d '/' -f 1
           done | sort -u)
 
-          # Store the directory names in a variable
-          comma_separated_dir_names=$dir_names
-          echo $comma_separated_dir_names
+          # Create a dynamic build job for each directory
+          for dir_name in $comma_separated_dir_names; do
+            name="build-$dir_name"
+            jobs+="jobs:$name"
+            steps+="
+              - name: Build $dir_name
+                run: |
+                  echo 'Building $dir_name...'
+                  yarn build $dir_name
+            "
+          done
 
-  
+          # Create a workflow with the dynamic build jobs
+          workflow:
+            name: Build and Deploy
+            on: push
+            jobs:
+              * $jobs
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - run: yarn install
+      - run: yarn deploy
