@@ -33,12 +33,13 @@ jobs:
     name: Build - ${{ matrix.locale }}
     needs: [pre-build]
     strategy:
+      max-parallel: 1
       matrix:
         locale: ${{fromJSON(needs.pre-build.outputs.locales)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Build ${{ matrix.locale }}
+      - name: Build/Deploy ${{ matrix.locale }}
         run: |
           echo "Building for locale ${{ matrix.locale }}"
           cd ${{ matrix.locale }}; ls -lrth
