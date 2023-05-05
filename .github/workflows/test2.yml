@@ -1,0 +1,17 @@
+name: Test 2
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: jitterbit/get-changed-files@v1
+        id: changed-files
+        with:
+          format: space-delimited
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print changed directories
+        run: |
+          for file in ${{ steps.changed-files.outputs.added_modified }}; do
+            dirname $file
+          done | sort -u
